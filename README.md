@@ -4,10 +4,12 @@ my dotfiles
 
 # Installation
 
+ATTENTION! `setup.sh` deletes files and directories (`.oh-my-zsh`) and overwrites configfiles (`.zshrc`, `)
+
 ```sh
 git clone https://github.com/pixelchrome/dotfile.git
 cd dotfiles
-sh setup.sh
+zsh setup.zsh
 cd ~
 source .zshrc
 ```
