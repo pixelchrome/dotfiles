@@ -16,6 +16,24 @@ function update() {
     git submodule init && git submodule update
 }
 
+function install-brew() {
+    if [ ! -x "$(which brew)" ] ; then
+        echo "Installing brew"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        
+    fi
+}
+
+function install-zsh-features() {
+    echo "Installing zsh features..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew update
+        brew install zsh-syntax-highlighting zsh-autosuggestions
+    else
+        echo "Please install zsh features manually"
+    fi
+}
+
 function install-ohmyzsh() {
     echo "Removing ~/.oh-my-zsh"
     rm -rf ~/.oh-my-zsh
@@ -52,8 +70,15 @@ function configure-zshrc() {
         echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-        echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+        if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+            echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+            echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+        elif [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+            echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+            echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+        else
+            echo "WARNING macOS: zsh-syntax-highlighting & zsh-autosuggestions not found!"
+        fi
     elif [[ "$OSTYPE" == "freebsd"* ]]; then
         echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
@@ -64,14 +89,18 @@ function configure-zshrc() {
 
 function this-is-the-end() {
     echo "Finished. Use 'source ~/.zshrc'"
+    source ~/.zshrc
 }
 
 main() {
     backup-dotfiles
+    install-brew
+    install-zsh-features
     install-ohmyzsh
     install-powerlevel10k
     copy-dotfiles
     configure-zshrc
+    this-is-the-end
 }
 
 main "$@"
