@@ -17,10 +17,11 @@ function update() {
 }
 
 function install-brew() {
-    if [ ! -x "$(which brew)" ] ; then
-        echo "Installing brew"
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if [ ! -x "$(which brew)" ] ; then
+            echo "Installing brew"
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
     fi
 }
 

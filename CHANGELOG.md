@@ -4,6 +4,14 @@
 
 `setup.zsh` 
 
+updated
+
+* `function install-brew()` - install brew only on macOS
+
+## 20211219
+
+`setup.zsh` 
+
 fuctions added
 
 * `CHANGELOG.md`
