@@ -1,6 +1,6 @@
 # Changelog
 
-## 20211219
+## 20211221
 
 `setup.zsh` 
 
