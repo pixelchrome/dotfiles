@@ -1,42 +1,46 @@
 #!/usr/bin/env zsh
 
+
+
 function backup-dotfiles() {
     echo "Creating backup"
     if [ ! -e ~/.dotfiles-backup ]; then
         echo "Creating ~/.dotfiles-backup"
         mkdir ~/.dotfiles-backup
     fi
-    echo "Backup dotfiles..."
+    echo -e "\nBackup dotfiles..."
     cp ~/.zshrc ~/.dotfiles-backup
     cp ~/.p10k.zsh ~/.dotfiles-backup
     echo
 }
 
-function update() {
-    git submodule init && git submodule update
-}
-
 function install-brew() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         if [ ! -x "$(which brew)" ] ; then
-            echo "Installing brew"
+            echo -e "\nInstalling brew"
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
     fi
 }
 
 function install-zsh-features() {
-    echo "Installing zsh features..."
+    echo -e "\nInstalling zsh features..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
         brew install zsh-syntax-highlighting zsh-autosuggestions
+    elif [[ -f /etc/lsb-release ]]; then
+        sudo apt-get update
+        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release
+    elif [[ -f /etc/redhat-release ]]; then
+        sudo yum update
+        echo "Please install zsh features manually"
     else
         echo "Please install zsh features manually"
     fi
 }
 
 function install-ohmyzsh() {
-    echo "Removing ~/.oh-my-zsh"
+    echo -e "\nRemoving ~/.oh-my-zsh"
     rm -rf ~/.oh-my-zsh
     echo 
     echo "Installing oh-my-zsh"
@@ -53,7 +57,7 @@ function install-ohmyzsh() {
 }
 
 function install-powerlevel10k() {
-    echo "powerlevel10k"
+    echo -e "\nInstalling powerlevel10k"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     echo
 }
@@ -66,7 +70,7 @@ function copy-dotfiles() {
 }
 
 function configure-zshrc() {
-    echo "Configure .zshrc"
+    echo -e "\nConfiguring .zshrc"
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
@@ -88,8 +92,20 @@ function configure-zshrc() {
     fi
 }
 
+function change-shell() {
+    if [[ "$SHELL" != *"zsh" ]]; then
+        echo -e "\n$SHELL in use... Select *zsh* from available shells..."
+        cat /etc/shells
+        chsh
+        echo "ATTENTION! logout/login and re-run this script"
+        exit 0
+    fi
+}
+
 function this-is-the-end() {
-    echo "Finished. Use 'source ~/.zshrc'"
+    echo -e "\nFinished. Use 'source ~/.zshrc'"
+    echo "Consider to add yourself to sudoers"
+    echo "e.g.: echo \"harry ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/harry"
     source ~/.zshrc
 }
 
@@ -97,6 +113,7 @@ main() {
     backup-dotfiles
     install-brew
     install-zsh-features
+    change-shell
     install-ohmyzsh
     install-powerlevel10k
     copy-dotfiles
