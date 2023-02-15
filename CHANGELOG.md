@@ -1,5 +1,32 @@
 # Changelog
 
+## 20230215
+
+`setup.zsh`
+
+added
+
+* neofetch added to `function configure-zshrc()`
+
+`.zshrc`
+
+* .zshrc typo fixed
+* `ENABLE_CORRECTION="true"`
+* `POWERLEVEL9K_INSTANT_PROMPT=quiet`
+
+`README.md`
+
+* Info about **JetBrains Mono** font added
+
+`.vimrc`
+
+My first version of `vimrc` most infos are from here -> https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
+
+other
+
+* macOS Terminal Profile **luci** added
+
+
 ## 20211229
 
 `setup.zsh`

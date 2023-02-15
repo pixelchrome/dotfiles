@@ -54,6 +54,29 @@ source .zshrc
 
 # More setup stuff
 
+## SUDO
+
+If `sudo` should not ask for a password 
+
 ```sh
 echo "harry ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/harry
+```
+
+## Fonts for the terminal and more
+
+Get the JetBrains Mono here https://www.jetbrains.com/lp/mono/ and install it
+
+### macOS Terminal
+
+In the directory `other` you can find `luci.terminal`. Just doubleclick to install it. This is inspired by NetApp colortheme **luci** http://luci.netapp.com/visual-language/color.html
+
+### VS Code
+
+Open the *User Settings (JSON)* with CMD + SHIFT + p
+
+and add:
+
+```json
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true,
 ```

@@ -11,6 +11,7 @@ function backup-dotfiles() {
     echo -e "\nBackup dotfiles..."
     cp ~/.zshrc ~/.dotfiles-backup
     cp ~/.p10k.zsh ~/.dotfiles-backup
+    cp ~/.vimrc ~/.dotfiles-backup
     echo
 }
 
@@ -27,10 +28,10 @@ function install-zsh-features() {
     echo -e "\nInstalling zsh features..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
-        brew install zsh-syntax-highlighting zsh-autosuggestions
+        brew install zsh-syntax-highlighting zsh-autosuggestions neofetch
     elif [[ -f /etc/lsb-release ]]; then
         sudo apt-get update
-        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release
+        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release neofetch
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
@@ -66,11 +67,14 @@ function copy-dotfiles() {
     echo "Copy..."
     /bin/cp .zshrc ~
     /bin/cp .p10k.zsh ~
+    /bin/cp .vimrc ~
     echo
 }
 
 function configure-zshrc() {
     echo -e "\nConfiguring .zshrc"
+    echo "- adding zsh-syntax-highlighting"
+    echo "- adding zsh-autosuggestions"
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
@@ -82,13 +86,19 @@ function configure-zshrc() {
             echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
             echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
         else
-            echo "WARNING macOS: zsh-syntax-highlighting & zsh-autosuggestions not found!"
+            echo "WARNING macOS: zsh-syntax-highlighting & zsh-autosuggestions & neofetch not found!"
         fi
     elif [[ "$OSTYPE" == "freebsd"* ]]; then
         echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
     else
-        echo "Unknown OS"
+        echo "!!! Unknown OS !!!"
+    fi
+    echo "- adding neofetch"
+    if [ -x "$(which neofetch)" ] ; then
+        echo `which neofetch` >> ~/.zshrc
+    else
+        echo "!!! Could not find neofetch. !!!" >&2
     fi
 }
 
