@@ -29,7 +29,7 @@ function install-zsh-features() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
         brew install zsh-syntax-highlighting zsh-autosuggestions neofetch
-    elif [[ -f /etc/lsb-release ]]; then
+    elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
         sudo apt-get update
         sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release neofetch
     elif [[ -f /etc/redhat-release ]]; then

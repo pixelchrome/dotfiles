@@ -1,5 +1,15 @@
 # Changelog
 
+## 20230413
+
+`setup.zsh`
+
+* Debian added to `function install-zsh-features()`
+
+`README.md`
+
+* Info about **Docker** added
+
 ## 20230215
 
 `setup.zsh`

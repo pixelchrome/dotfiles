@@ -80,3 +80,18 @@ and add:
     "editor.fontFamily": "JetBrains Mono",
     "editor.fontLigatures": true,
 ```
+
+## Docker
+
+Install Docker
+
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+```
+
+Manage Docker as a non-root user
+
+```sh
+sudo usermod -aG docker $USER
+```
