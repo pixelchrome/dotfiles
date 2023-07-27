@@ -12,6 +12,7 @@ function backup-dotfiles() {
     cp ~/.zshrc ~/.dotfiles-backup
     cp ~/.p10k.zsh ~/.dotfiles-backup
     cp ~/.vimrc ~/.dotfiles-backup
+    cp ~/.zprofile ~/.dotfiles-backup
     echo
 }
 
@@ -31,7 +32,7 @@ function install-zsh-features() {
         brew install zsh-syntax-highlighting zsh-autosuggestions neofetch
     elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release neofetch
+        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
@@ -102,6 +103,16 @@ function configure-zshrc() {
     fi
 }
 
+function configure-zprofile() {
+    echo -e "\nConfiguring .zprofile"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "eval $(/opt/homebrew/bin/brew shellenv)" >> ~/.zprofile
+        echo 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' >> ~/.zprofile
+    else
+        echo "Please configure your .zprofile"
+    fi
+}
+
 function change-shell() {
     if [[ "$SHELL" != *"zsh" ]]; then
         echo -e "\n$SHELL in use... Select *zsh* from available shells..."
@@ -128,6 +139,7 @@ main() {
     install-powerlevel10k
     copy-dotfiles
     configure-zshrc
+    configure-zprofile
     this-is-the-end
 }
 
