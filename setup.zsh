@@ -29,10 +29,10 @@ function install-zsh-features() {
     echo -e "\nInstalling zsh features..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
-        brew install zsh-syntax-highlighting zsh-autosuggestions neofetch
+        brew install zsh-syntax-highlighting zsh-autosuggestions
     elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
+        sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
@@ -56,6 +56,22 @@ function install-ohmyzsh() {
         echo "Could not find curl, wget or fetch, please install one." >&2
     fi
     echo
+}
+
+function install-other() {
+    echo -e "\nInstalling other..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew update
+        brew install wakeonlan neofetch
+    elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
+        sudo apt-get update
+        sudo apt install git curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
+    elif [[ -f /etc/redhat-release ]]; then
+        sudo yum update
+        echo "Please install zsh features manually"
+    else
+        echo "Please install zsh features manually"
+    fi
 }
 
 function install-powerlevel10k() {
@@ -133,6 +149,7 @@ function this-is-the-end() {
 main() {
     backup-dotfiles
     install-brew
+    install-other
     install-zsh-features
     change-shell
     install-ohmyzsh
