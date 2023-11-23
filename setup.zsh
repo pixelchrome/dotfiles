@@ -32,7 +32,7 @@ function install-zsh-features() {
         brew install zsh-syntax-highlighting zsh-autosuggestions
     elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting
+        sudo apt -y install zsh zsh-autosuggestions zsh-syntax-highlighting
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
@@ -65,7 +65,7 @@ function install-other() {
         brew install wakeonlan neofetch
     elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt install git curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
+        sudo apt -y install git curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
