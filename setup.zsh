@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-
-
 function backup-dotfiles() {
     echo "Creating backup"
     if [ ! -e ~/.dotfiles-backup ]; then
@@ -30,12 +28,15 @@ function install-zsh-features() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
         brew install zsh-syntax-highlighting zsh-autosuggestions
-    elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
+    elif [[ -f /etc/lsb-release || -f /etc/debian_version ]]; then
         sudo apt-get update
         sudo apt -y install zsh zsh-autosuggestions zsh-syntax-highlighting
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
+    elif [[ -f /etc/os-release ]]; then
+        doas pkg update
+        doas pkg install -y zsh zsh-autosuggestions zsh-syntax-highlighting
     else
         echo "Please install zsh features manually"
     fi
@@ -44,7 +45,7 @@ function install-zsh-features() {
 function install-ohmyzsh() {
     echo -e "\nRemoving ~/.oh-my-zsh"
     rm -rf ~/.oh-my-zsh
-    echo 
+    echo
     echo "Installing oh-my-zsh"
     if [ -x "$(which wget)" ] ; then
         sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
@@ -63,9 +64,13 @@ function install-other() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
         brew install wakeonlan neofetch
-    elif [[ -f /etc/lsb-release || /etc/debian_version ]]; then
+    elif [[ -f /etc/lsb-release || -f /etc/debian_version ]]; then
+        echo "Ubuntu or Debian"
         sudo apt-get update
         sudo apt -y install git curl apt-transport-https ca-certificates gnupg lsb-release neofetch vim
+    elif [[ -f /etc/os-release ]]; then
+        doas pkg update
+        doas pkg install -y doas git gnupg neofetch vim
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"

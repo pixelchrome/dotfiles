@@ -2,15 +2,15 @@
 
 My dotfiles and the setup and tools I use
 
-# Installation useful tools
+## Installation useful tools
 
-## Ubuntu
+### Ubuntu
 
 ```sh
 sudo apt install git zsh zsh-autosuggestions zsh-syntax-highlighting curl apt-transport-https ca-certificates gnupg lsb-release tmux
 ```
 
-### Install tmux-xpanes
+#### Install tmux-xpanes
 
 ```sh
 sudo apt install software-properties-common
@@ -19,7 +19,7 @@ sudo apt update
 sudo apt install tmux-xpanes
 ```
 
-## macOS
+### macOS
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -29,15 +29,15 @@ sudo apt install tmux-xpanes
 brew install tmux tmux-xpanes zsh-autosuggestions zsh-syntax-highlighting
 ```
 
-# Installation dotfiles
+## Installation dotfiles
 
 ATTENTION! `setup.sh` deletes files and directories (`.oh-my-zsh`) and overwrites configfiles (`.zshrc`, `.p10k.zsh`)
 
-## macOS
+### macOS homebrew
 
 * brew will be installed if not found
 
-## zsh features
+### zsh features
 
 This zsh features will be installed
 
@@ -52,25 +52,36 @@ cd ~
 source .zshrc
 ```
 
-# More setup stuff
+## More setup stuff
 
-## SUDO
+### SUDO
 
-If `sudo` should not ask for a password 
+If `sudo` should not ask for a password
 
 ```sh
 echo "harry ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/harry
 ```
 
-## Fonts for the terminal and more
+### FreeBSD - `doas`
+
+Permit members of the wheel group to perform actions as root and user harry should not be asked for a password.
+
+Add below lines to `/usr/local/etc/doas.conf`
+
+```sh
+permit keepenv :wheel
+permit keepenv nopass harry
+```
+
+### Fonts for the terminal and more
 
 Get the JetBrains Mono here https://www.jetbrains.com/lp/mono/ and install it
 
-### macOS Terminal
+#### macOS Terminal
 
 In the directory `other` you can find `luci.terminal`. Just doubleclick to install it. This is inspired by NetApp colortheme **luci** http://luci.netapp.com/visual-language/color.html
 
-### VS Code
+#### VS Code
 
 Open the *User Settings (JSON)* with CMD + SHIFT + p
 
@@ -81,7 +92,7 @@ and add:
     "editor.fontLigatures": true,
 ```
 
-## Docker
+### Docker
 
 Install Docker
 
