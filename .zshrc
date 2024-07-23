@@ -129,10 +129,10 @@ POWERLEVEL9K_INSTANT_PROMPT=quiet
 # more plugins will be addes via setup.zsh
 
 # aliases
-alias pwronswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1"
-alias pwroffswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 2"
-alias pwronvault="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.2 i 1 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.3 i 1"
+#alias pwronswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1"
+#alias pwroffswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 2"
+alias pwronvault="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.2 i 1 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.3 i 1"
 alias pwroffvault="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.2 i 2 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.3 i 2"
-alias pwronarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.4 i 1"
-alias pwroffarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.4 i 2"
+alias pwronarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1"
+alias pwroffarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.12.1.1.1 i 2"
 alias wolrage="wakeonlan a8:a1:59:c1:2a:31"
