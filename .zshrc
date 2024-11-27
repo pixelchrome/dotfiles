@@ -124,15 +124,26 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+
 POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # more plugins will be addes via setup.zsh
 
 # aliases
-#alias pwronswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1"
-#alias pwroffswitch="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 2"
-alias pwronvault="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.2 i 1 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.3 i 1"
-alias pwroffvault="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.2 i 2 && snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.3 i 2"
-alias pwronarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.11.1.1.1 i 1"
-alias pwroffarchivum="snmpset -v2c -c private 10.0.10.60 .1.3.6.1.4.1.1718.3.2.3.1.12.1.1.1 i 2"
-alias wolrage="wakeonlan a8:a1:59:c1:2a:31"
+
+[ -f .config/aliases ] && source .config/aliases

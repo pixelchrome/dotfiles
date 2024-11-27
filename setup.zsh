@@ -5,12 +5,18 @@ function backup-dotfiles() {
     if [ ! -e ~/.dotfiles-backup ]; then
         echo "Creating ~/.dotfiles-backup"
         mkdir ~/.dotfiles-backup
+        mkdir ~/.dotfiles-backup/config
+    fi
+    if [ ! -e ~/.dotfiles-backup/config ]; then
+        echo "Creating ~/.dotfiles-backup/config"
+        mkdir ~/.dotfiles-backup/config
     fi
     echo -e "\nBackup dotfiles..."
     cp ~/.zshrc ~/.dotfiles-backup
     cp ~/.p10k.zsh ~/.dotfiles-backup
     cp ~/.vimrc ~/.dotfiles-backup
     cp ~/.zprofile ~/.dotfiles-backup
+    cp -Rf ~/.config/* ~/.dotfiles-backup/config*
     echo
 }
 
@@ -27,16 +33,16 @@ function install-zsh-features() {
     echo -e "\nInstalling zsh features..."
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew update
-        brew install zsh-syntax-highlighting zsh-autosuggestions
+        brew install zsh-syntax-highlighting zsh-autosuggestions zsh-autocomplete
     elif [[ -f /etc/lsb-release || -f /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt -y install zsh zsh-autosuggestions zsh-syntax-highlighting
+        sudo apt -y install zsh zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
     elif [[ -f /etc/redhat-release ]]; then
         sudo yum update
         echo "Please install zsh features manually"
     elif [[ -f /etc/os-release ]]; then
         doas pkg update
-        doas pkg install -y zsh zsh-autosuggestions zsh-syntax-highlighting
+        doas pkg install -y zsh zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
     else
         echo "Please install zsh features manually"
     fi
@@ -86,10 +92,16 @@ function install-powerlevel10k() {
 }
 
 function copy-dotfiles() {
+    echo "Create .config"
+    if [ ! -e ~/.config ]; then
+        echo "Creating ~/.config"
+        mkdir ~/.config
+    fi
     echo "Copy..."
     /bin/cp .zshrc ~
     /bin/cp .p10k.zsh ~
     /bin/cp .vimrc ~
+    /bin/cp config/* ~/.config
     echo
 }
 
@@ -97,22 +109,31 @@ function configure-zshrc() {
     echo -e "\nConfiguring .zshrc"
     echo "- adding zsh-syntax-highlighting"
     echo "- adding zsh-autosuggestions"
+    echo "- adding zsh-autocomplete "
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+        echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+        echo "autoload -Uz compinit && compinit" >> ~/.zshrc
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
             echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
             echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+            echo "source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+            echo "autoload -Uz compinit && compinit" >> ~/.zshrc
         elif [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
             echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
             echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+            echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+            echo "autoload -Uz compinit && compinit" >> ~/.zshrc
         else
             echo "WARNING macOS: zsh-syntax-highlighting & zsh-autosuggestions & neofetch not found!"
         fi
     elif [[ "$OSTYPE" == "freebsd"* ]]; then
         echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
         echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+        echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+        echo "autoload -Uz compinit && compinit" >> ~/.zshrc
     else
         echo "!!! Unknown OS !!!"
     fi

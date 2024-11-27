@@ -75,11 +75,11 @@ permit keepenv nopass harry
 
 ### Fonts for the terminal and more
 
-Get the JetBrains Mono here https://www.jetbrains.com/lp/mono/ and install it
+Get the JetBrains Mono here <https://www.jetbrains.com/lp/mono/> and install it
 
 #### macOS Terminal
 
-In the directory `other` you can find `luci.terminal`. Just doubleclick to install it. This is inspired by NetApp colortheme **luci** http://luci.netapp.com/visual-language/color.html
+In the directory `other` you can find `luci.terminal`. Just doubleclick to install it. This is inspired by NetApp colortheme **luci** <http://luci.netapp.com/visual-language/color.html>
 
 #### VS Code
 
