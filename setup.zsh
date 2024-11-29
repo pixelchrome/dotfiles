@@ -31,21 +31,10 @@ function install-brew() {
 
 function install-zsh-features() {
     echo -e "\nInstalling zsh features..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew update
-        brew install zsh-syntax-highlighting zsh-autosuggestions zsh-autocomplete
-    elif [[ -f /etc/lsb-release || -f /etc/debian_version ]]; then
-        sudo apt-get update
-        sudo apt -y install zsh zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
-    elif [[ -f /etc/redhat-release ]]; then
-        sudo yum update
-        echo "Please install zsh features manually"
-    elif [[ -f /etc/os-release ]]; then
-        doas pkg update
-        doas pkg install -y zsh zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete
-    else
-        echo "Please install zsh features manually"
-    fi
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions 
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
+    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/fast-syntax-highlighting
 }
 
 function install-ohmyzsh() {
@@ -107,36 +96,6 @@ function copy-dotfiles() {
 
 function configure-zshrc() {
     echo -e "\nConfiguring .zshrc"
-    echo "- adding zsh-syntax-highlighting"
-    echo "- adding zsh-autosuggestions"
-    echo "- adding zsh-autocomplete "
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-        echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
-        echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
-        echo "autoload -Uz compinit && compinit" >> ~/.zshrc
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-            echo "source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-            echo "source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
-            echo "source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
-            echo "autoload -Uz compinit && compinit" >> ~/.zshrc
-        elif [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-            echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-            echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
-            echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
-            echo "autoload -Uz compinit && compinit" >> ~/.zshrc
-        else
-            echo "WARNING macOS: zsh-syntax-highlighting & zsh-autosuggestions & neofetch not found!"
-        fi
-    elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-        echo "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
-        echo "source /usr/local/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
-        echo "autoload -Uz compinit && compinit" >> ~/.zshrc
-    else
-        echo "!!! Unknown OS !!!"
-    fi
     echo "- adding neofetch"
     if [ -x "$(which neofetch)" ] ; then
         echo `which neofetch` >> ~/.zshrc
@@ -176,9 +135,9 @@ main() {
     backup-dotfiles
     install-brew
     install-other
-    install-zsh-features
     change-shell
     install-ohmyzsh
+    install-zsh-features
     install-powerlevel10k
     copy-dotfiles
     configure-zshrc

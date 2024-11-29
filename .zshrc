@@ -91,6 +91,10 @@ plugins=(
   kubectl
   marked2
   macos
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  fast-syntax-highlighting
+  zsh-autocomplete
 )
 
 source $ZSH/oh-my-zsh.sh
